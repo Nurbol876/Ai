@@ -1,16 +1,11 @@
-export const config = {
-    api: {
-        bodyParser: true,
-    },
-};
-
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Only POST allowed" });
     }
 
     try {
-        const { messages } = req.body;
+        const body = JSON.parse(req.body); // ← MUST HAVE on Vercel
+        const { messages } = body;
 
         const response = await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
